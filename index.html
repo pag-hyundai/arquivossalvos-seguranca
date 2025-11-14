@@ -157,13 +157,18 @@
 
     <!-- Overlay de Carregamento -->
     <div id="loadingOverlay">
-        <div class="spinner"></div>
-        <p>Processando pagamento...</p>
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Processando seu pagamento...</p>
+            <p class="loading-subtitle">Garantindo a segurança e a criptografia da sua transação.</p>
+        </div>
     </div>
 
     <!-- Scripts -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="script.js"></script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 </body>
 </html>
