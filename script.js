@@ -137,7 +137,6 @@ function validateField(input) {
         case 'phone':
             if (!value.trim()) {
                 errorMessage = 'Telefone é obrigatório';
-                isValid = false;
             } else if (!validatePhone(value)) {
                 errorMessage = 'Digite um telefone válido';
                 isValid = false;
@@ -419,9 +418,12 @@ async function handleSubmit(e) {
     const submitBtn = document.querySelector('button[type="submit"]');
     const loadingOverlay = document.getElementById('loadingOverlay');
     
+    // 1. Desabilitar botão e mostrar texto de processamento
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Processando...';
-    loadingOverlay.style.display = 'flex';
+    submitBtn.innerHTML = '<div class="spinner"></div> Processando...'; // Mantém o spinner no botão para feedback imediato
+    
+    // 2. Mostrar o overlay de carregamento (com o novo estilo)
+    loadingOverlay.classList.add('show'); // Usa a classe 'show' para a transição de opacidade
     
     try {
         const paymentResult = await processPixPayment(formData);
@@ -435,10 +437,14 @@ async function handleSubmit(e) {
     } catch (error) {
         console.error('❌ Erro ao gerar Pix:', error);
         showToast(error.message || 'Erro ao processar pagamento. Tente novamente.', 'error');
-        loadingOverlay.style.display = 'none';
+        
+        // Em caso de erro, esconder o overlay
+        loadingOverlay.classList.remove('show');
+        
     } finally {
+        // 3. Restaurar o estado do botão (isso só acontecerá em caso de erro, pois em sucesso há redirecionamento)
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Gerar QR Code Pix';
+        submitBtn.innerHTML = 'Gerar QR Code Pix e Finalizar Compra';
     }
 }
 
